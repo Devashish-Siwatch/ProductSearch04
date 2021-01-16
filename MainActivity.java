@@ -1,4 +1,5 @@
-package com.example.productsearch03;
+package com.example.productsearch04;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             //url = "https://firebase.google.com/";
-             // url = "https://www.amazon.in/s?k=laptop";
+            // url = "https://www.amazon.in/s?k=laptop";
             String x=text;
             url = "https://www.amazon.in/s?k="+x;
             try {
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Element img=document.select("img").get(8);
                 Elements words=document.select("span[class=\"a-size-medium a-color-base a-text-normal\"]").eq(0);
-               // String words = document.body().text();
+                // String words = document.body().text();
                 str=words.text();
 
                 // Element words = document.select("span").get(500);
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 }*/
 
                 imgSrc = img.absUrl("src");
+
             } catch (IOException e) {
                 e.printStackTrace();
                 System.out.println("Catch");
@@ -66,11 +68,22 @@ public class MainActivity extends AppCompatActivity {
 
             return null;
         }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            System.out.println("poste");
+            textView.setText(str);
+
+        }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         imageView=findViewById(R.id.image);
         editText=findViewById(R.id.input);
@@ -80,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 //     buttonclick++;
+               //AT.cancel(true);
+                new AT().execute();
                 text=editText.getText().toString();
                 System.out.println(imgSrc);
                 new AT().execute();
@@ -88,7 +103,8 @@ public class MainActivity extends AppCompatActivity {
                         .placeholder(R.drawable.ic_launcher_foreground)
                         .fitCenter()
                         .into(imageView);
-                textView.setText(str);
+
+
 
 
 
